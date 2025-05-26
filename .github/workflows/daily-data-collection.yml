@@ -9,7 +9,7 @@ on:
       force_update:
         description: 'Force update even if data exists for today'
         required: false
-        default: 'false'
+        default: false
         type: boolean
 
 jobs:
@@ -20,7 +20,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+        persist-credentials: true
     
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -54,7 +55,9 @@ jobs:
         git config --local user.name "squallwei"
         git add data/valuation_history.json
         git commit -m "📊 Daily data update: $(date +'%Y-%m-%d')"
-        git push
+        git push origin main
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
     
     - name: Create summary
       if: steps.git-check.outputs.changes == 'true'
