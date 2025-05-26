@@ -50,8 +50,8 @@ jobs:
     - name: Commit and push changes
       if: steps.git-check.outputs.changes == 'true'
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+        git config --local user.email "squall_wei@163.com"
+        git config --local user.name "squallwei"
         git add data/valuation_history.json
         git commit -m "📊 Daily data update: $(date +'%Y-%m-%d')"
         git push
